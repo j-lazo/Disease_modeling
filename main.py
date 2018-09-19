@@ -97,17 +97,90 @@ class CAWidget(QtGui.QWidget):
         super(CAWidget, self).__init__(parent)
         self.center()
 
+        # Dropdown button ODE Models
+
+        self.Box_models = QtGui.QComboBox(self)
+        self.Box_models.addItem("SI model")
+        self.Box_models.addItem("SIR model")
+        self.Box_models.currentIndexChanged.connect(self.selection_model)
+
+        # Solver parameters grid
+
+        initial_time = QtGui.QLabel('Initial time ')
+        final_time = QtGui.QLabel('Final time')
+
+        self.val_ti = QtGui.QDoubleSpinBox()
+        self.val_ti.setRange(0, 1e9)
+        self.val_ti.setValue(0)
+        self.val_ti.setSingleStep(0.0001)
+        self.val_ti.setDecimals(4)
+
+        self.val_tf = QtGui.QDoubleSpinBox()
+        self.val_tf.setRange(0.001, 1e9)
+        self.val_tf.setValue(100)
+        self.val_tf.setSingleStep(0.0001)
+        self.val_tf.setDecimals(4)
+
+        # initial conditions grid
+
+        x01 = QtGui.QLabel('x1(0)')
+        x02 = QtGui.QLabel('x2(0)')
+        x03 = QtGui.QLabel('x3(0)')
+
+        self.val_x01 = QtGui.QDoubleSpinBox()
+        self.val_x01.setRange(0, 1e12)
+        self.val_x01.setValue(10)
+        self.val_x01.setDecimals(4)
+
+        self.val_x02 = QtGui.QDoubleSpinBox()
+        self.val_x02.setRange(0, 1e12)
+        self.val_x02.setValue(2)
+        self.val_x02.setDecimals(4)
+
+        self.val_x03 = QtGui.QDoubleSpinBox()
+        self.val_x03.setRange(0, 1e12)
+        self.val_x03.setValue(1)
+        self.val_x03.setDecimals(4)
+
+        grid_i = QtGui.QGridLayout()
+        grid_i.addWidget(x01, 0, 0)
+        grid_i.addWidget(self.val_x01, 0, 1)
+        grid_i.addWidget(x02, 1, 0)
+        grid_i.addWidget(self.val_x02, 1, 1)
+        grid_i.addWidget(x03, 2, 0)
+        grid_i.addWidget(self.val_x03, 2, 1)
+
+        grid_p = QtGui.QGridLayout()
+        grid_p.addWidget(initial_time, 0, 0)
+        grid_p.addWidget(self.val_ti, 0, 1)
+        grid_p.addWidget(final_time, 1, 0)
+        grid_p.addWidget(self.val_tf, 1, 1)
+
+        # button Save
+        btn_save = QtGui.QPushButton('Save Data', self)
+        btn_save.resize(btn_save.sizeHint())
+        btn_save.clicked.connect(self.save_sim)
+
+        # button Solve
+        btn_play = QtGui.QPushButton('PLAY', self)
+        btn_play.resize(btn_play.sizeHint())
+        btn_play.clicked.connect(self.play)
+
         # grid Layout
         grid = QtGui.QGridLayout()
         self.setLayout(grid)
         grid.setSpacing(10)
+        grid.addWidget(btn_save, 3, 1)
+        grid.addWidget(btn_play, 3, 0)
+
 
         # pyplot
         self.figure = plt.figure(figsize=(15, 10))
         self.canvas = FigureCanvas(self.figure)
         self.toolbar = NavigationToolbar(self.canvas, self)
-        grid.addWidget(self.toolbar, 0, 0, 1, 2)
+        grid.addWidget(self.toolbar, 0, 0,1,2)
         grid.addWidget(self.canvas, 1, 0, 1, 2)
+        grid.addWidget(self.Box_models, 0, 1)
 
 
     def center(self):
@@ -116,22 +189,19 @@ class CAWidget(QtGui.QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def new_sim(self):
+    def selection_model(self):
         pass
 
     def save_sim(self):
         pass
 
+    def play(self):
 
-    def sim(self):
-
-        #plt.cla() #this clears the plot
+        plt.cla() #this clears the plot
         ax1 = self.figure.add_subplot(121)
         ax2 = self.figure.add_subplot(122)
 
-
-
-        ax.set_title('Simulation Results')
+        ax1.set_title('Simulation Results')
         plt.xlabel('Simulation time')
         plt.ylabel('Population')
 
@@ -179,20 +249,22 @@ class PWidget(QtGui.QWidget):
         simulation_steps = QtGui.QLabel('Simulation steps')
 
         self.val_ti = QtGui.QDoubleSpinBox()
-        self.val_ti.setRange(0, 1e7)
+        self.val_ti.setRange(0, 1e9)
         self.val_ti.setValue(0)
         self.val_ti.setSingleStep(0.0001)
         self.val_ti.setDecimals(4)
 
         self.val_tf = QtGui.QDoubleSpinBox()
-        self.val_tf.setRange(0.001, 1e7)
+        self.val_tf.setRange(0.001, 1e9)
         self.val_tf.setValue(100)
         self.val_tf.setSingleStep(0.0001)
         self.val_tf.setDecimals(4)
 
-        self.val_num_steps = QtGui.QSpinBox()
-        self.val_num_steps.setRange(0, 1e7)
-        self.val_num_steps.setValue(100)
+        self.val_num_steps = QtGui.QDoubleSpinBox()
+        self.val_num_steps.setRange(0, 1e12)
+        self.val_num_steps.setValue(200)
+        self.val_tf.setSingleStep(1)
+        self.val_tf.setDecimals(0)
 
         grid_p = QtGui.QGridLayout()
 
@@ -211,25 +283,22 @@ class PWidget(QtGui.QWidget):
         x04 = QtGui.QLabel('x4(0)')
 
         self.val_x01 = QtGui.QDoubleSpinBox()
-        self.val_x01.setRange(0, 1e7)
+        self.val_x01.setRange(0, 1e12)
         self.val_x01.setValue(10)
         self.val_x01.setDecimals(4)
 
-
         self.val_x02 = QtGui.QDoubleSpinBox()
-        self.val_x02.setRange(0, 1e7)
+        self.val_x02.setRange(0, 1e12)
         self.val_x02.setValue(2)
         self.val_x02.setDecimals(4)
 
-
         self.val_x03 = QtGui.QDoubleSpinBox()
-        self.val_x03.setRange(0, 1e7)
+        self.val_x03.setRange(0, 1e12)
         self.val_x03.setValue(1)
         self.val_x03.setDecimals(4)
 
-
         self.val_x04 = QtGui.QDoubleSpinBox()
-        self.val_x04.setRange(0, 1e7)
+        self.val_x04.setRange(0, 1e12)
         self.val_x04.setValue(0)
         self.val_x04.setDecimals(4)
 
@@ -277,18 +346,14 @@ class PWidget(QtGui.QWidget):
         grid_pm.addWidget(gamma_p, 2, 0)
         grid_pm.addWidget(self.val_gamma, 2, 1)
 
-
         vbox = QtGui.QVBoxLayout()
         vbox.addStretch(1)
         vbox.addWidget(solver)
         vbox.addWidget(self.Box_solver)
-        #vbox.addWidget(parameters)
         vbox.addLayout(grid_p)
         vbox.addWidget(ode_model)
         vbox.addWidget(self.Box_models)
-        #vbox.addWidget(initial_conditions)
         vbox.addLayout(grid_i)
-        #vbox.addWidget(parameters_model)
         vbox.addLayout(grid_pm)
 
         # grid Layout
