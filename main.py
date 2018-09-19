@@ -13,16 +13,14 @@ import csv
 class MainWindow(QtGui.QMainWindow):
 
     def __init__(self, parent=None):
+
         super(MainWindow, self).__init__(parent)
-        self.form_widget = PWidget(self)
+
         self.setGeometry(600, 300, 1000, 600)
         self.setWindowTitle('Disease Simulator')
         self.setWindowIcon(QtGui.QIcon('pythonlogo.png'))
 
-        _widget = QtGui.QWidget()
-        _layout = QtGui.QVBoxLayout(_widget)
-        _layout.addWidget(self.form_widget)
-        self.setCentralWidget(_widget)
+        self.ODE_simulator()
 
         extractAction = QtGui.QAction("&Exit", self)
         extractAction.setShortcut("Ctrl+Q")
@@ -39,16 +37,47 @@ class MainWindow(QtGui.QMainWindow):
         saveAction.setStatusTip('Save Simulation')
         saveAction.triggered.connect(self.form_widget.save_sim)
 
+        CA_Action = QtGui.QAction("&C.A. ", self)
+        CA_Action.setShortcut("Ctrl+A")
+        CA_Action.setStatusTip('Cellular Automaton Simulator')
+        CA_Action.triggered.connect(self.CA_simulator)
+
+        ODE_Action = QtGui.QAction("&ODE ", self)
+        ODE_Action.setShortcut("Ctrl+O")
+        ODE_Action.setStatusTip('ODE Simulator')
+        ODE_Action.triggered.connect(self.ODE_simulator)
+
 
         mainMenu = self.menuBar()
-        fileMenu = mainMenu.addMenu('&File')
-        fileMenu.addAction(extractAction)
-        fileMenu.addAction(resetAction)
+        mainMenu = mainMenu.addMenu('&File')
+        mainMenu.addAction(extractAction)
+        mainMenu.addAction(resetAction)
+
+        fileMenu = self.menuBar()
+        fileMenu = fileMenu.addMenu('&Simulation')
+        fileMenu.addAction(ODE_Action)
+        fileMenu.addAction(CA_Action)
+
+    def CA_simulator(self):
+        self.form_widget = CAWidget(self)
+        _widget = QtGui.QWidget()
+        _layout = QtGui.QVBoxLayout(_widget)
+        _layout.addWidget(self.form_widget)
+        self.setCentralWidget(_widget)
+
+    def ODE_simulator(self):
+        self.form_widget = PWidget(self)
+        _widget = QtGui.QWidget()
+        _layout = QtGui.QVBoxLayout(_widget)
+        _layout.addWidget(self.form_widget)
+        self.setCentralWidget(_widget)
 
 
-        simMenu = self.menuBar()
-        fileMenu = mainMenu.addMenu('&Simulation')
-
+    #def type_simulator(self, type):
+    #    if type == 'ODE':
+    #        self.form_widget = PWidget(self)
+    #    elif type == 'CA':
+    #        self.form_widget = CAWidget(self)
 
     def close_application(self):
 
@@ -63,7 +92,52 @@ class MainWindow(QtGui.QMainWindow):
 
 
 class CAWidget(QtGui.QWidget):
-    pass
+
+    def __init__(self,parent):
+        super(CAWidget, self).__init__(parent)
+        self.center()
+
+        # grid Layout
+        grid = QtGui.QGridLayout()
+        self.setLayout(grid)
+        grid.setSpacing(10)
+
+        # pyplot
+        self.figure = plt.figure(figsize=(15, 10))
+        self.canvas = FigureCanvas(self.figure)
+        self.toolbar = NavigationToolbar(self.canvas, self)
+        grid.addWidget(self.toolbar, 0, 0, 1, 2)
+        grid.addWidget(self.canvas, 1, 0, 1, 2)
+
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QtGui.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def new_sim(self):
+        pass
+
+    def save_sim(self):
+        pass
+
+
+    def sim(self):
+
+        #plt.cla() #this clears the plot
+        ax1 = self.figure.add_subplot(121)
+        ax2 = self.figure.add_subplot(122)
+
+
+
+        ax.set_title('Simulation Results')
+        plt.xlabel('Simulation time')
+        plt.ylabel('Population')
+
+        self.canvas.draw()
+
+        return y[0], solutions
 
 
 class PWidget(QtGui.QWidget):

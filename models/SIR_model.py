@@ -25,7 +25,7 @@ def SIR_model(t, x, c=[0.1, 0.1]):
     
     # --- the system ---
     
-    dS = -beta*S*I/N
+    dS = -beta*S*I/N - gamma*S + gamma
     dI = beta*(S*I)/N - gamma*I    
     dR = gamma*I
 
