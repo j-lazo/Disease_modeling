@@ -1,10 +1,20 @@
 import numpy as np
 
 def rk2_N(fx, x0, consts, ti, tf, steps):
+    """
+    2nd order Runge-Kutta method with parameters of the ODE system passing option
+    :param fx:
+    :param x0:
+    :param consts:
+    :param ti:
+    :param tf:
+    :param steps:
+    :return:
+    """
     n = len(x0)
     w = []
-    w.append(x0)
     t = []
+    w.append(x0)
     t.append(ti)
     k1 = []
     k2 = []

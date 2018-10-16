@@ -21,6 +21,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('pythonlogo.png'))
 
         self.ODE_simulator()
+        #self.CA_simulator()
 
         extractAction = QtGui.QAction("&Exit", self)
         extractAction.setShortcut("Ctrl+Q")
@@ -102,6 +103,7 @@ class CAWidget(QtGui.QWidget):
         self.Box_models = QtGui.QComboBox(self)
         self.Box_models.addItem("SI model")
         self.Box_models.addItem("SIR model")
+        self.Box_models.addItem("Other")
         self.Box_models.currentIndexChanged.connect(self.selection_model)
 
         # Solver parameters grid
@@ -117,7 +119,7 @@ class CAWidget(QtGui.QWidget):
 
         self.val_tf = QtGui.QDoubleSpinBox()
         self.val_tf.setRange(0.001, 1e9)
-        self.val_tf.setValue(100)
+        self.val_tf.setValue(20)
         self.val_tf.setSingleStep(0.0001)
         self.val_tf.setDecimals(4)
 
@@ -256,13 +258,13 @@ class PWidget(QtGui.QWidget):
 
         self.val_tf = QtGui.QDoubleSpinBox()
         self.val_tf.setRange(0.001, 1e9)
-        self.val_tf.setValue(100)
+        self.val_tf.setValue(30)
         self.val_tf.setSingleStep(0.0001)
         self.val_tf.setDecimals(4)
 
         self.val_num_steps = QtGui.QDoubleSpinBox()
         self.val_num_steps.setRange(0, 1e12)
-        self.val_num_steps.setValue(200)
+        self.val_num_steps.setValue(100)
         self.val_tf.setSingleStep(1)
         self.val_tf.setDecimals(0)
 
@@ -284,17 +286,17 @@ class PWidget(QtGui.QWidget):
 
         self.val_x01 = QtGui.QDoubleSpinBox()
         self.val_x01.setRange(0, 1e12)
-        self.val_x01.setValue(10)
+        self.val_x01.setValue(1)
         self.val_x01.setDecimals(4)
 
         self.val_x02 = QtGui.QDoubleSpinBox()
         self.val_x02.setRange(0, 1e12)
-        self.val_x02.setValue(2)
+        self.val_x02.setValue(0.01)
         self.val_x02.setDecimals(4)
 
         self.val_x03 = QtGui.QDoubleSpinBox()
         self.val_x03.setRange(0, 1e12)
-        self.val_x03.setValue(1)
+        self.val_x03.setValue(0)
         self.val_x03.setDecimals(4)
 
         self.val_x04 = QtGui.QDoubleSpinBox()
@@ -321,19 +323,19 @@ class PWidget(QtGui.QWidget):
 
         self.val_alpha=QtGui.QDoubleSpinBox()
         self.val_alpha.setRange(-1e7, 1e7)
-        self.val_alpha.setValue(1)
+        self.val_alpha.setValue(0.01)
         self.val_alpha.setDecimals(4)
         self.val_alpha.setSingleStep(0.0001)
 
         self.val_beta=QtGui.QDoubleSpinBox()
         self.val_beta.setRange(-1e7, 1e7)
-        self.val_beta.setValue(1)
+        self.val_beta.setValue(0.9)
         self.val_beta.setDecimals(4)
         self.val_beta.setSingleStep(0.0001)
 
-        self.val_gamma=QtGui.QDoubleSpinBox()
+        self.val_gamma = QtGui.QDoubleSpinBox()
         self.val_gamma.setRange(-1e7, 1e7)
-        self.val_gamma.setValue(0.5)
+        self.val_gamma.setValue(1)
         self.val_gamma.setDecimals(4)
         self.val_gamma.setSingleStep(0.0001)
 
@@ -408,14 +410,14 @@ class PWidget(QtGui.QWidget):
         self.canvas.draw()
 
         self.val_ti.setValue(0)
-        self.val_tf.setValue(50)
+        self.val_tf.setValue(100)
         self.val_num_steps.setValue(100)
         self.val_alpha.setValue(0.5)
         self.val_beta.setValue(0.5)
         self.val_gamma.setValue(0.5)
-        self.val_x01.setValue(5)
-        self.val_x02.setValue(1)
-        self.val_x03.setValue(1)
+        self.val_x01.setValue(1)
+        self.val_x02.setValue(0.0)
+        self.val_x03.setValue(0)
         self.val_x04.setValue(0)
 
     def errase(self):
@@ -491,7 +493,7 @@ class PWidget(QtGui.QWidget):
         elif self.Box_models.currentText() == 'SI model 2':
             consts = [alpha, beta, gamma]
             X0 = [x01, x02]
-            from models.SI_model2 import SI_model2 as model
+            from models.SIS_model2 import SIS_model2 as model
 
         elif self.Box_models.currentText() == 'Other':
             filename = str(self.file_open())

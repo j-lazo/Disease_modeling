@@ -6,13 +6,15 @@
 import numpy as np
 
 
-def SI_model(t, x, c=[1, 1.3]):
+def SIS_model2(t, x, c=[1, 1.3, 0.3]):
     
     # ---parameters needed---
 
     alpha = c[0]
-    beta = c[1]
+    beta0 = c[1]
+    ep = c[2]
     
+    beta = beta0*(1+ep*np.cos(2*np.pi*t/365))
     R0 = 1/alpha*beta
     
     # ---initial conditions---
@@ -25,7 +27,7 @@ def SI_model(t, x, c=[1, 1.3]):
     
     # --- the system ---
     
-    ds1 = -beta*s1*i1/N +  alpha*i1 
+    ds1 = -beta*s1*i1/N
     di1 = beta*(s1*i1)/N - alpha*i1    
         
     return [ds1, di1]     

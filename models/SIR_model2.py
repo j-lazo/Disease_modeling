@@ -4,7 +4,7 @@
 @author: jl
 """
 
-def SIR_model(t, x, c):
+def SIR_model2(t, x, c):
     
     # ---parameters needed---
 
@@ -22,9 +22,10 @@ def SIR_model(t, x, c):
     N = I+S+R   
     
     # --- the system ---
-    
-    dS = -beta*S*I/N - gamma*S + gamma
-    dI = beta*(S*I)/N - gamma*I
+
+    #dS = -beta*S*I/N - gamma*S
+    dS = -beta*S*I
+    dI = beta*(S*I) - gamma*I
     dR = gamma*I
 
     return [dS, dI, dR]     

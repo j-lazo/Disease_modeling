@@ -6,49 +6,330 @@
 import numpy as np
 from solvers.rk4_N import*
 import matplotlib.pyplot as plt
-from exact_solutions import*
+from models.exact_solutions import*
 from solvers.rk2_N import rk2_N
 from solvers.euler_method import*
-from models.SI_model import SI_model
+from models.SIS_model import SIS_model
 from models.SIR_model import SIR_model
-from models.SI_model2 import SI_model2
+from models.SIS_model2 import SIS_model2
+from models.SIR_model2 import SIR_model2
 
 
-N=1
-x01 = 1/N
-x02 = 0.01/N
-x03= 0/N
-x0 = [x01, x02, x03] # change this according to the entries of your model
+def test_SIR():
 
-c_1 = 1.4
-c_2 = 0.09
-c_3 = 0.1
-consts = [c_1, c_2] # change this according to the number of constants  of your model
+    N=20+15+10
+    #N = 1
+    x01 = 20/N
+    x02 = 15/N
+    x03 = 10/N
 
-initial_time = 0 
-final_time = 50
-total_number_of_steps = 500
-y = rk4_N(SIR_model, x0, consts, initial_time, final_time, total_number_of_steps)
+    x0 = [x01, x02, x03] # change this according to the entries of your model
 
-sir = SIR_sol(x01, x02, x03, c_1, c_2, final_time)
-sis = SIS_sol(x01, x02, c_1, c_2, final_time)
-y1,y2, y3=[],[],[]
-for ye in y[1]:
+    c_1 = 1.4
+    c_2 = 0.2
+    #c_3 = 0.0
+    consts = [c_1, c_2] # change this according to the number of constants  of your model
 
-    y1.append(ye[0])
-    y2.append(ye[1])
-    y3.append(ye[2])
+    initial_time = 0
+    final_time = 15
+    total_number_of_steps = 30
+    y = rk4_N(SIR_model, x0, consts, initial_time, final_time, total_number_of_steps)
 
-plt.figure(1)
-plt.plot(y[0], y1, '-o')
-plt.plot(y[0], y2, '-o')
-plt.plot(y[0], y3, '-o')
 
-plt.figure(2)
-plt.plot(sir[0], 'b')
-plt.plot(sir[1], 'r')
+    y1, y2, y3 = [], [], []
+    for ye in y[1]:
 
-plt.figure(3)
-plt.plot(sis[0], 'b')
-plt.plot(sis[1], 'r')
-plt.show()
+        y1.append(ye[0])
+        y2.append(ye[1])
+        y3.append(ye[2])
+
+    plt.figure(1)
+    plt.plot(y[0], y1, '-o')
+    plt.plot(y[0], y2, '-o')
+    plt.plot(y[0], y3, '-o')
+    #for i in range(1,20):
+
+    sir = SIR_sol(x01, x02, x03, c_1, c_2, final_time, total_number_of_steps)
+    plt.figure(2)
+    plt.plot(sir[0], 'b')
+    plt.plot(sir[1], 'r')
+    plt.plot(y[0], y1, '-o')
+    plt.plot(y[0], y2, '-o')
+
+    #N=20+15+10
+    N = 1
+    x01 = 20/N
+    x02 = 15/N
+    x03 = 10/N
+
+    #c_1s = [0.1, 0.3, 0.4, 0.6, 0.9, 1.4, 1.5, 1.9, 2.0, 2.1]
+    #c_1s = [0.05, 0.1, 0.2, 0.5, 1.1, 1.4, 1.7, 1.9, 2.1, 2.5, 2.5]
+    #c_1s = [2.0, 2.1, 2.3, 2.5, 2.9, 4.1]
+    #c_1s = [0.1, 0.3, 0.4, 0.6, 0.9]
+    #c2s = [0.0005, 0.01, 0.05, 0.1]
+    c_1s = [0.01]
+    c2s = [0.02]
+    for c_2 in c2s:
+        for c_1 in c_1s:
+
+            consts[0] = c_1
+            consts[1] = c_2
+            j = rk4_N(SIR_model2, x0, consts, initial_time, final_time, total_number_of_steps)
+            g = rk2_N(SIR_model2, x0, consts, initial_time, final_time, total_number_of_steps)
+            e = euler_method(SIR_model2, x0, consts, initial_time, final_time, total_number_of_steps)
+
+            g1, g2, g3 = [], [], []
+            j1, j2, j3 = [], [], []
+            e1, e2, e3, = [], [], []
+            for je in j[1]:
+                j1.append(je[0])
+                j2.append(je[1])
+                j3.append(je[2])
+
+            for ge in g[1]:
+                g1.append(ge[0])
+                g2.append(ge[1])
+                g3.append(ge[2])
+
+            for ee in e[1]:
+                e1.append(ee[0])
+                e2.append(ee[1])
+                e3.append(ee[2])
+
+            plt.figure()
+            plt.title("".join(['c1 = ',str(c_1), ',', 'c2 = ',str(c_2)]))
+
+            plt.plot(j[0], j1, 'xb')
+            plt.plot(j[0], j2, 'xr')
+            plt.plot(j[0], j3, 'xg')
+
+            plt.plot(g[0], g1, '^b')
+            plt.plot(g[0], g2, '^r')
+            plt.plot(g[0], g3, '^g')
+
+            plt.plot(e[0], e1, 'ob')
+            plt.plot(e[0], e2, 'or')
+            plt.plot(e[0], e3, 'og')
+
+            sir = SIR2_sol(x01, x02, x03, c_1, c_2, final_time, 1000)
+
+            plt.plot(sir[0], sir[1], '--b')
+            plt.plot(sir[0], sir[2], '--r')
+            plt.plot(sir[0], sir[3], '--g')
+            plt.figure()
+            plt.plot(sir[0], sir[1], '-ob')
+            plt.plot(sir[0], sir[2], '-or')
+            plt.plot(sir[0], sir[3], '-og')
+
+            plt.figure()
+            print(sir[0])
+            print(sir[1])
+            plt.plot(sir[0], sir[1], '--b')
+            plt.plot(sir[0], sir[2], '--r')
+            plt.plot(sir[0], sir[3], '--g')
+
+
+def test_SIS():
+    N = 22500
+    x01 = 22400/N
+    x02 = 100/N
+    x03 = 0/N
+
+    x0 = [x01, x02]
+
+    initial_time = 0
+    final_time = 20
+    total_number_of_steps = 50
+
+    c_1s = [0.1, 0.2, 0.3, 0.4, 0.6, 0.9, 1.1]
+    c_1s = [0.9]
+    c_2 = 0.01
+
+    # tp save the relative errors
+    Errk2i = []
+    Errk2s = []
+    Errk4i = []
+    Errk4s = []
+    Erre2i = []
+    Erre2s = []
+
+    # to save the errors
+
+    Ee_rk4s = []
+    Ee_rk4i = []
+    Ee_rk2s = []
+    Ee_rk2i = []
+    Ee_euls = []
+    Ee_euli = []
+
+    for i in range(5):
+        for c_1 in c_1s:
+            consts = [c_1, c_2]  # change this according to the number of constants  of your model
+            consts[0] = c_1
+            j = rk4_N(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+            g = rk2_N(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+            e = euler_method(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+
+            g1, g2, g3 = [], [], []
+            j1, j2, j3 = [], [], []
+            e1, e2, = [], []
+            for je in j[1]:
+                j1.append(je[0])
+                j2.append(je[1])
+
+            for ge in g[1]:
+                g1.append(ge[0])
+                g2.append(ge[1])
+
+            for ee in e[1]:
+                e1.append(ee[0])
+                e2.append(ee[1])
+
+            plt.figure()
+            plt.title('Simulation of the SIS model with $\\beta$ = ' + str(c_1) + ' and  $\gamma$ = ' + str(c_2))
+
+            plt.plot(j[0], j1, 'xr', label='S, 4th order RK')
+            plt.plot(j[0], j2, 'xb', label='I, 4th order RK')
+
+            plt.plot(g[0], g1, '^r', label='S, 2nd order RK')
+            plt.plot(g[0], g2, '^b', label='I, 2nd order RK')
+
+            plt.plot(e[0], e1, 'or', label='S, forward Euler Method ')
+            plt.plot(e[0], e2, 'ob', label='I, forward Euler Method')
+
+            sis = SIS_sol(x01, x02, c_1, c_2, final_time, total_number_of_steps)
+            plt.plot(sis[2], sis[0], '--r', label='S, exact solution')
+            plt.plot(sis[2], sis[1], '--b', label='I, exact solution')
+            plt.ylabel('Population')
+            plt.xlabel('time')
+            plt.legend(loc='best')
+
+            # Calculating the relative error
+            g1 = np.array(g1)
+            g2 = np.array(g2)
+            j1 = np.array(j1)
+            j2 = np.array(j2)
+            e1 = np.array(e1)
+            e2 = np.array(e2)
+            si0 = np.array(sis[0][:])
+            si1 = np.array(sis[1][:])
+
+            erk2i = (g1 - si0) / si0
+            erk2s = (g2 - si1) / si1
+            erk4i = (j1 - si0) / si0
+            erk4s = (j2 - si1) / si1
+            ee2i = (e1 - si0) / si0
+            ee2s = (e2 - si1) / si1
+
+            Errk2i.append(erk2s)
+            Errk2s.append(erk2i)
+            Errk4i.append(erk4s)
+            Errk4s.append(erk4i)
+            Erre2i.append(ee2s)
+            Erre2s.append(ee2i)
+
+            plt.figure()
+            plt.title('Relative error of the SIS model with $\\beta$ = ' + str(c_1) + ' and  $\gamma$ = ' + str(c_2))
+            plt.plot(sis[2], erk2i, '-*', label='S, 2nd order RK')
+            plt.plot(sis[2], erk2s, '-*', label='I, 2nd order RK')
+            plt.plot(sis[2], erk4i, '-*', label='S, 4th order RK')
+            plt.plot(sis[2], erk4s, '-*', label='I, 4th order RK')
+            plt.plot(sis[2], ee2i, '-*', label='S, Forward Euler Method')
+            plt.plot(sis[2], ee2s, '-*', label='I, Forward Euler Method')
+            plt.ylabel('Relative error')
+            plt.legend(loc='best')
+
+            if i > 0:
+
+                j1c = np.array([element for i, element in enumerate(j1) if i % 2 == 0])
+                j2c = np.array([element for i, element in enumerate(j2) if i % 2 == 0])
+                g1c = np.array([element for i, element in enumerate(g1) if i % 2 == 0])
+                g2c = np.array([element for i, element in enumerate(g2) if i % 2 == 0])
+                e1c = np.array([element for i, element in enumerate(e1) if i % 2 == 0])
+                e2c = np.array([element for i, element in enumerate(e2) if i % 2 == 0])
+
+                E_rk4s = (js_p - j1c)/(2**5-1)
+                E_rk4i = (ji_p - j2c)/(2**5-1)
+                E_rk2s = (gs_p - g1c)/(2**3-1)
+                E_rk2i = (gi_p - g2c)/(2**3-1)
+                E_euls = (es_p - e1c)/(2**2-1)
+                E_euli = (ei_p - e2c)/(2**2-1)
+
+                Ee_rk4s.append(E_rk4s)
+                Ee_rk4i.append(E_rk4i)
+                Ee_rk2s.append(E_rk2s)
+                Ee_rk2i.append(E_rk2i)
+                Ee_euls.append(E_euls)
+                Ee_euli.append(E_euli)
+
+                plt.figure()
+                plt.title('Error with $h$ = {}'.format(final_time/total_number_of_steps))
+                plt.plot(E_euls, '-+', label='S, Euler Method')
+                plt.plot(E_euli, '-+', label='I, Euler Method')
+                plt.plot(E_rk2s, '-+', label='S, RK 2nd order')
+                plt.plot(E_rk2i, '-+', label='I, RK 2nd order')
+                plt.plot(E_rk4s, '-+', label='S, RK 4th order')
+                plt.plot(E_rk4i, '-+', label='I, RK 4th order')
+                plt.ylabel('Error')
+                plt.xlabel('Step')
+                plt.legend(loc='best')
+
+            js_p = copy.copy(j1)
+            gs_p = copy.copy(g1)
+            es_p = copy.copy(e1)
+            ji_p = copy.copy(j2)
+            gi_p = copy.copy(g2)
+            ei_p = copy.copy(e2)
+            total_number_of_steps = int(total_number_of_steps * 2)
+
+    # to test the variable 2
+    """c_1 = 0.2
+    c_2s = [0.01, 0.05, 0.1, 0.5, 0.9, 1.1, 1.5]
+    
+    for c_2 in c_2s:
+        consts = [c_1, c_2]  # change this according to the number of constants  of your model
+        consts[0] = c_1
+        j = rk4_N(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+        g = rk2_N(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+        e = euler_method(SIS_model, x0, consts, initial_time, final_time, total_number_of_steps)
+    
+        g1, g2, g3 = [], [], []
+        j1, j2, j3 = [], [], []
+        e1, e2, = [], []
+        for je in j[1]:
+            j1.append(je[0])
+            j2.append(je[1])
+    
+        for ge in g[1]:
+            g1.append(ge[0])
+            g2.append(ge[1])
+    
+        for ee in e[1]:
+            e1.append(ee[0])
+            e2.append(ee[1])
+    
+        plt.figure()
+        plt.title('Simulation of the SIS model with $\\beta$ = ' + str(c_1) + ' and  $\gamma$ = ' + str(c_2))
+    
+        plt.plot(j[0], j1, 'xr', label='S, 4th order RK')
+        plt.plot(j[0], j2, 'xb', label='I, 4th order RK')
+    
+        plt.plot(g[0], g1, '^r', label='S, 2nd order RK')
+        plt.plot(g[0], g2, '^b', label='I, 2nd order RK')
+    
+        plt.plot(e[0], e1, 'or', label='S, forward Euler Method ')
+        plt.plot(e[0], e2, 'ob', label='I, forward Euler Method')
+    
+        sis = SIS_sol(x01, x02, c_1, c_2, final_time)
+        plt.plot(sis[0], '--r', label='S, exact solution')
+        plt.plot(sis[1], '--b', label='I, exact solution')
+        plt.ylabel('Population')
+        plt.xlabel('time')
+        plt.legend(loc='best')"""
+
+def main():
+    test_SIR()
+
+if __name__ == '__main__':
+    main()
+    plt.show()
