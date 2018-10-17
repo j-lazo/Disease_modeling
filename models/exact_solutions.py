@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
 
@@ -11,7 +10,7 @@ import numpy as np
 import copy
 
 
-def SIR_sol(s_0, i_0, r_0, beta, mu, total_time, steps):
+def SIR_sol(s_0, i_0, r_0, beta, mu, final_time, total_number_of_steps):
 
     """
     :param s_0: Initial population of susceptible
@@ -21,33 +20,35 @@ def SIR_sol(s_0, i_0, r_0, beta, mu, total_time, steps):
     :param mu: const
     :return: Susceptibles through time, Infected through time
     """
-
     S = []
     I = []
     R = []
+    T = []
 
     #S.append(s_0)
     #I.append(i_0)
     #R.append(r_0)
+    #T.append(0)
 
     C = s_0 + i_0 - 1
     lambd = beta - mu + beta * C
     D = (lambd - i_0 * beta) / (lambd * i_0 * np.exp(beta * C / mu))
+    total_time = np.linspace(0, final_time, total_number_of_steps+1)
 
-    for j in range(0, total_time):
-
-        t = j*0.4
-
+    for j, time in enumerate(total_time):
+        t = time
         param = beta + lambd * D * np.exp(- lambd * t) * np.exp(beta * C / mu)
         S.append((1 + (s_0 + i_0 - 1) * (1 - mu * t) - lambd/(beta + lambd * D * np.exp(- lambd * t + (beta * C) / mu))))
         I.append(lambd/(beta + lambd * D * np.exp(-lambd * t) * np.exp((beta * C) / mu)))
-        R.append(r_0 + mu * I[j] * t)
+        R.append((r_0 + mu * I[j] * t))  # this one maybe is not right
+        T.append(t)
     
-    return [S, I, R]
+    return [S, I, R, T]
 
 
+def SIR2_sol(s_0, i_0, r_0, beta, gamma, total_time, total_number_of_steps):
 
-def SIR2_sol(s_0, i_0, r_0, beta, gamma, total_time, steps):
+    time = np.linspace(0, total_time, total_number_of_steps+1)
 
     def f(x, c, gamma, beta, s_0):
         fx = 1 / (x * (c-gamma * np.log(x) + s_0 * beta * x))
@@ -72,7 +73,7 @@ def SIR2_sol(s_0, i_0, r_0, beta, gamma, total_time, steps):
     T.append(0)
     u0 = np.exp(-beta * r_0 / gamma)
     j = 0
-    for j in range(total_time):
+    for j, t in enumerate(time):
     #while j < 100:
         #N = S[j] + I[j] + R[j]
         N = s_0 + i_0 + r_0
