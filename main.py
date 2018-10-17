@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+@author: jl
+"""
 import sys
 import os
 import numpy as np
@@ -47,7 +51,6 @@ class MainWindow(QtGui.QMainWindow):
         ODE_Action.setShortcut("Ctrl+O")
         ODE_Action.setStatusTip('ODE Simulator')
         ODE_Action.triggered.connect(self.ODE_simulator)
-
 
         mainMenu = self.menuBar()
         mainMenu = mainMenu.addMenu('&File')
