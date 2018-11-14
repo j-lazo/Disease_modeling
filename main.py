@@ -103,11 +103,11 @@ class CAWidget(QtGui.QWidget):
 
         # Dropdown button ODE Models
 
-        self.Box_models = QtGui.QComboBox(self)
-        self.Box_models.addItem("SI model")
-        self.Box_models.addItem("SIR model")
-        self.Box_models.addItem("Other")
-        self.Box_models.currentIndexChanged.connect(self.selection_model)
+        self.Box_models_ca = QtGui.QComboBox(self)
+        self.Box_models_ca.addItem("SI model")
+        self.Box_models_ca.addItem("SIR model")
+        self.Box_models_ca.addItem("Other")
+        self.Box_models_ca.currentIndexChanged.connect(self.selection_model)
 
         # Solver parameters grid
 
@@ -183,9 +183,9 @@ class CAWidget(QtGui.QWidget):
         self.figure = plt.figure(figsize=(15, 10))
         self.canvas = FigureCanvas(self.figure)
         self.toolbar = NavigationToolbar(self.canvas, self)
-        grid.addWidget(self.toolbar, 0, 0,1,2)
+        grid.addWidget(self.toolbar, 0, 0, 1, 2)
         grid.addWidget(self.canvas, 1, 0, 1, 2)
-        grid.addWidget(self.Box_models, 0, 1)
+        grid.addWidget(self.Box_models_ca, 0, 1)
 
 
     def center(self):
