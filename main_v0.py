@@ -10,12 +10,11 @@ from solvers.rk2_N import rk2_N
 from solvers.euler_method import*
 from models.SIS_model import SIS_model
 from models.SIR_model import SIR_model
+from models.automata import*
 from models.SIS_model2 import SIS_model2
 from models.SIR_model2 import SIR_model2
 
 
-def Real_case():
-    pass
 
 def test_SIR():
 
@@ -425,13 +424,163 @@ def test_SIS():
 
 
 def calc_error(a_h, a_2h, m):
-    a_2h= np.array([element for i, element in enumerate(a_2h) if i % 2 == 0])
+    a_2h = np.array([element for i, element in enumerate(a_2h) if i % 2 == 0])
     return (a_h - a_2h)/(2**m-1)
 
+def test_SIR2():
 
+    N = 22500
+    x01 = 22400/N
+    x02 = 100/N
+    x03 = 0/N
+    x0 = [x01, x02, x03] # change this according to the entries of your model
+
+    c_1 = 0.6
+    c_2 = 0.2
+    consts = [c_1, c_2] # change this according to the number of constants  of your model
+
+    initial_time = 0
+    final_time = 30
+    total_number_of_steps = 50
+    y = rk4_N(SIR_model2, x0, consts, initial_time, final_time, total_number_of_steps)
+
+    y1, y2, y3 = [], [], []
+    for ye in y[1]:
+        y1.append(ye[0])
+        y2.append(ye[1])
+        y3.append(ye[2])
+
+    plt.figure()
+    plt.title('Solution Using a RK4 model')
+    plt.plot(y[0], y1, '-o', label='S')
+    plt.plot(y[0], y2, '-o', label='I')
+    plt.plot(y[0], y3, '-o', label='R')
+    plt.xlabel('time')
+    plt.ylabel('population')
+    plt.legend(loc='best')
+
+
+def test_automata():
+    A = AutomataModel(150, 22500, 100, 0)
+    total = 22500
+    # A = AutomataModel(10, 98, 2, 0)
+    # total = 100
+    tmax = 100
+    P_s = []
+    P_i = []
+    P_r = []
+    plt.figure()
+    for t in range(tmax):
+        p_s, p_i, p_r = measure(A.model)
+        P_s.append(p_s / total)
+        P_i.append(p_i / total)
+        P_r.append(p_r / total)
+
+        # plt.subplot(1, 2, 1)
+        plt.imshow(A.model)
+        # plt.subplot(1, 2, 2)
+        # plt.plot(P_s, '--b')
+        # plt.plot(P_i, '--r')
+        # plt.plot(P_r, '--g')
+        plt.pause(0.00001)
+        X = []
+        Y = []
+        for i in range(150 * 150):
+            x, y = simulate_SIR2(A.model, 0.72, 0.25, 0.05)
+            X.append(x)
+            Y.append(y)
+
+        # plt.figure()
+        # plt.subplot(1, 2, 1)
+        # plt.hist(X)
+        # plt.subplot(1, 2, 2)
+        # plt.hist(Y)
+
+    plt.figure()
+    plt.plot(P_s, 'b-^', label='S')
+    plt.plot(P_i, 'r-^', label='I')
+    plt.plot(P_r, 'g-^', label='R')
+    plt.legend(loc='best')
+    plt.xlabel('Time steps')
+    plt.ylabel('Population')
+
+
+def test_comp():
+    A = AutomataModel(150, 22500, 100, 0)
+    total = 22500
+    # A = AutomataModel(10, 98, 2, 0)
+    # total = 100
+    tmax = 30
+    P_s = []
+    P_i = []
+    P_r = []
+    plt.figure()
+    for t in range(tmax):
+        p_s, p_i, p_r = measure(A.model)
+        P_s.append(p_s / total)
+        P_i.append(p_i / total)
+        P_r.append(p_r / total)
+
+        # plt.subplot(1, 2, 1)
+        plt.imshow(A.model)
+        # plt.subplot(1, 2, 2)
+        # plt.plot(P_s, '--b')
+        # plt.plot(P_i, '--r')
+        # plt.plot(P_r, '--g')
+        plt.pause(0.00001)
+        X = []
+        Y = []
+        for i in range(150 * 150):
+            x, y = simulate_SIR(A.model, 0.62, 0.15)
+            X.append(x)
+            Y.append(y)
+
+        # plt.figure()
+        # plt.subplot(1, 2, 1)
+        # plt.hist(X)
+        # plt.subplot(1, 2, 2)
+        # plt.hist(Y)
+
+    N = 22500
+    x01 = 22400/N
+    x02 = 100/N
+    x03 = 0/N
+    x0 = [x01, x02, x03] # change this according to the entries of your model
+
+    c_1 = 0.6
+    c_2 = 0.2
+    consts = [c_1, c_2] # change this according to the number of constants  of your model
+
+    initial_time = 0
+    final_time = 30
+    total_number_of_steps = 50
+    y = rk4_N(SIR_model2, x0, consts, initial_time, final_time, total_number_of_steps)
+
+    y1, y2, y3 = [], [], []
+    for ye in y[1]:
+        y1.append(ye[0])
+        y2.append(ye[1])
+        y3.append(ye[2])
+
+    plt.figure()
+    plt.title('Solution Using a RK4 model')
+    plt.plot(y[0], y1, 'b-o', label='S, ODE system')
+    plt.plot(y[0], y2, 'r-o', label='I, ODE system')
+    plt.plot(y[0], y3, 'g-o', label='R, ODE system')
+
+    plt.plot(P_s, 'b-^', label='S, C.A.')
+    plt.plot(P_i, 'r-^', label='I, C.A.')
+    plt.plot(P_r, 'g-^', label='R, C.A.')
+
+    plt.xlabel('time')
+    plt.ylabel('population')
+    plt.legend(loc='best')
 
 def main():
-    test_SIR()
+    test_automata()
+    #test_SIR2()
+    #test_comp()
+
 
 if __name__ == '__main__':
     main()
