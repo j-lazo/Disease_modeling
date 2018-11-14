@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
 @author: jl
@@ -23,7 +22,7 @@ def SIR_model2(t, x, c):
     
     # --- the system ---
 
-    #dS = -beta*S*I/N - gamma*S
+    #dS = -beta*S*I - gamma*S
     dS = -beta*S*I
     dI = beta*(S*I) - gamma*I
     dR = gamma*I
