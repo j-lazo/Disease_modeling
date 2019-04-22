@@ -67,7 +67,11 @@ this in real life is not true. A way to face this issue is by using spatial mode
 
 ### Cellular Automata 
 
-In the case of this project, the CA was implemented just to see how equivalent could an stochastic model and a deterministic one
-be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the values of p and q stated in the equation 3.6. The CA model consisted in a grid of 150x150 cells with initial populations of 2400 susceptible cells and 100 infected. The model was run for 30 time steps.In the case of this project, it was just intended to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the
+In the case of this project, the CA was implemented just to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the values of p and q stated in the equation 3.6. The CA model consisted in a grid of 150x150 cells with initial populations of 2400 susceptible cells and 100 infected. The model was run for 30 time steps.In the case of this project, it was just intended to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the
 values of p and q stated in the equation 3.6. The CA model consisted in a grid of 150x150 cells with initial populations of 2400 susceptible cells and 100 infected. The model shown in the figure was run for 30 time steps.
 
+![result_CA1](extras/ca_result1.png)
+
+Snapshot of the simulation. Dark blue cells represent susceptible ones, blue are infected and yellow recovered one. 
+
+![result_CA2](extras/ca_result2.png)
