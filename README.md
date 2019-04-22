@@ -21,3 +21,15 @@ Between the extra features added is the option of select your own solver method 
 
 **[Towers et al, Pandemic H1N1 influenza: predicting the course of a pandemic and assessing the efficacy of the planned vaccination programme in the United States ](https://www.eurosurveillance.org/content/10.2807/ese.14.41.19358-en)
 
+## Theoretical Background
+
+### The models
+
+* The SIS Model
+* The SIR Model
+**Seasonal Forcing**
+* Spatial Models
+* Agent basde model (Cellular Automata CA)
+
+
+## Results
