@@ -26,9 +26,16 @@ Between the extra features added is the option of select your own solver method 
 ### The models
 
 * The SIS Model
+![equation1](extras/equation_1.png)
+![equation2](extras/equation_2.png)
 * The SIR Model
+![equation3](extras/equation_3.png)
+![equation3](extras/equation_4.png)
+
 **Seasonal Forcing**
+
 * Spatial Models
+
 * Agent basde model (Cellular Automata CA)
 
 
