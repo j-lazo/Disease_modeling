@@ -1,4 +1,4 @@
-# Disease_modeling
+# Disease modeling
 Disease models
 
 This a simple program for disease spreading modeling. The original purpose of this program was to test different ODE systems which intended to model the spread of diseases using different computational solver methods. Some other features were added after. The program was written in python and it is presented in a form of a GUI, the project was developed using the PyQt4 GUI toolkit. The program was tested using **Python2** the implementation using python 3 wasn't tested.  
