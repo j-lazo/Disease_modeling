@@ -75,3 +75,5 @@ values of p and q stated in the equation 3.6. The CA model consisted in a grid o
 Snapshot of the simulation. Dark blue cells represent susceptible ones, blue are infected and yellow recovered one. 
 
 ![result_CA2](extras/ca_result2.png)
+
+p = 0.65, q = 0.15
