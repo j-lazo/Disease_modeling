@@ -98,6 +98,29 @@ Relative error at each step for each method.
 
 Relative error at each step for each method.
 
+
+Then next stage was to study the error using different number of steps for the simulations and compare the error obtained on each one.
+
+![sim_50steps](extras/SIS_c1_09_c2_001_50steps.png)
+![error_50steps](extras/SIS_error_c1_09_c2_001_50steps.png)
+
+Simulation with 50 time steps
+
+
+![sim_100steps](extras/SIS_c1_09_c2_001_100steps.png)
+![error_100steps](extras/SIS_error_c1_09_c2_001_100steps.png)
+
+Simulation with 100 time steps
+
+
+![sim_200steps](extras/SIS_c1_09_c2_001_200steps.png)
+![error_200steps](extras/SIS_error_c1_09_c2_001_200steps.png)
+
+Simulation with 200 time steps
+
+
+
+
 ### Cellular Automata 
 
 In the case of this project, the CA was implemented just to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the values of p and q stated in the equation 3.6. The CA model consisted in a grid of 150x150 cells with initial populations of 2400 susceptible cells and 100 infected. The model was run for 30 time steps.In the case of this project, it was just intended to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the
