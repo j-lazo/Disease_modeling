@@ -57,10 +57,25 @@ Where β 0 is the mean transmission rate and α is the amplitude of seasonal var
 
 * Spatial Models
 
-Another assumption that is made in the previous examples is that the populations are isolated, this means that the population modeled is the absolute total population of a system or that this does not have contact with any other population. However,
-this in real life is not true. A way to face this issue is by using spatial models and by introducing the concept of metapopulation. This is a set of m = 1, ..., M populatons of size N n . The total number of individuals of the metapopulation is ......
+Another assumption that is made in the previous examples is that the populations are isolated, this means that the population modeled is the absolute total population of a system or that this does not have contact with any other population. However, this in real life is not true. A way to face this issue is by using spatial models and by introducing the concept of metapopulation. This is a set of m = 1, ..., M populatons of size N n . The total number of individuals of the metapopulation is 
+
+![equation_N](extras/euqation_N.png)
+
+The  main  idea  of  spatial  models  is  that  there  is  an  interaction  between  the individuals of each different population and this can be seen as a random exchange of individuals between populations.  The set of equations that model these kind of systems are
+
+![equation_s](extras/equation_spatial.png)
+
+where Nn = Sn + In + Rn  is the size of the population *n* and *Wm<-n* is the probability per unit time that a person picked at random in population *n* travels to population *m*.
 
 * Agent basde model (Cellular Automata CA)
+
+The Cellular Automata (CA) used is based on the Kermack-McKendrick model. Each cell has a probability of becoming infected given by:
+
+![equation_CA](extras/equation_CA.png)
+    
+where $p$ is the probability that an infected cell will transmit the disease to a healthy cell and *R* is the number of cells surrounding a healthy cell using a *Moore Neighborhood* as the one depicted in figure bellow. The probability  of becoming a recovered cell is given by a random number *q* between 0 and 1. At each time step, a number equal to the total number of cells is selected ant the new state for each cell selected is computed according to the rules stated above. 
+
+![Moore_neig](extras/CA-Moore-Neighborhood.png)
 
 
 ## Results
@@ -77,3 +92,13 @@ Snapshot of the simulation. Dark blue cells represent susceptible ones, blue are
 ![result_CA2](extras/ca_result2.png)
 
 p = 0.65, q = 0.15
+
+An advantage of the CA model is that it could be simply changed without the need of finding a numerical integration method for which the results converge. In this case a probability k was added to the algorithm so a recovered cell could convert into a susceptible one. The results are shown inthe next figures. 
+
+![results_CA3](extras/SIR_CA_c1072_c2013_c3005.png)
+
+p = 0.72, q = 0.13, k = 0.05
+
+![reulsts_CA4](extras/SIR_CA_c1072_c2025_c3005.png)
+
+p = 0.72, q = 0.25, k = 0.05
