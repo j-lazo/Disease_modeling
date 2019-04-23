@@ -94,7 +94,7 @@ Relative error at each step for each method.
 
 β = 0.9 , α = 0.01
 
-![result_erro2](extas/SIS_error_c1_09_c2_001.png)
+![result_erro2](extras/SIS_error_c1_09_c2_001.png)
 
 Relative error at each step for each method.
 
