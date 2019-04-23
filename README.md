@@ -57,8 +57,7 @@ Where β 0 is the mean transmission rate and α is the amplitude of seasonal var
 
 * Spatial Models
 
-Another assumption that is made in the previous examples is that the populations are isolated, this means that the population modeled is the absolute total population of a system or that this does not have contact with any other population. However,
-this in real life is not true. A way to face this issue is by using spatial models and by introducing the concept of metapopulation. This is a set of m = 1, ..., M populatons of size N n . The total number of individuals of the metapopulation is ......
+Another assumption that is made in the previous examples is that the populations are isolated, this means that the population modeled is the absolute total population of a system or that this does not have contact with any other population. However, this in real life is not true. A way to face this issue is by using spatial models and by introducing the concept of metapopulation. This is a set of m = 1, ..., M populatons of size N n . The total number of individuals of the metapopulation is ......
 
 * Agent basde model (Cellular Automata CA)
 
@@ -77,3 +76,13 @@ Snapshot of the simulation. Dark blue cells represent susceptible ones, blue are
 ![result_CA2](extras/ca_result2.png)
 
 p = 0.65, q = 0.15
+
+An advantage of the CA model is that it could be simply changed without the need of finding a numerical integration method for which the results converge. In this case a probability k was added to the algorithm so a recovered cell could convert into a susceptible one. The results are shown inthe next figures. 
+
+![results_CA3](extras/SIR_CA_c1072_c2013_c3005.png)
+
+p = 0.72, q = 0.13, k = 0.05
+
+![reulsts_CA4](extras/SIR_CA_c1072_c2025_c3005.png)
+
+p = 0.72, q = 0.25, k = 0.05
