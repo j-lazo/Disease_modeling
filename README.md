@@ -80,6 +80,24 @@ where $p$ is the probability that an infected cell will transmit the disease to 
 
 ## Results
 
+On the first part of this project different numerical methods were analyzed in the solution of the SI model. The algorithms used were, Runge-Kutta of 2nd and 4th order and the forward Euler method. To analyze the relative error, a specific case was taken into account, this was: β = 0.9 and α = 0.01. The results are depicted in the figure bellow
+
+![result_sim1](extras/SIS_c1_06_c2_001.png)
+
+β = 0.6 , α = 0.01
+
+![result_erro1](extras/SIS_error_c1_06_c2_001.png)
+
+Relative error at each step for each method.
+
+![result_sim1](extras/SIS_c1_09_c2_001.png)
+
+β = 0.9 , α = 0.01
+
+![result_erro1](extas/SIS_error_c1_09_c2_001.png)
+
+Relative error at each step for each method.
+
 ### Cellular Automata 
 
 In the case of this project, the CA was implemented just to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the values of p and q stated in the equation 3.6. The CA model consisted in a grid of 150x150 cells with initial populations of 2400 susceptible cells and 100 infected. The model was run for 30 time steps.In the case of this project, it was just intended to see how equivalent could an stochastic model and a deterministic one be. The CA model was tuned with to have a similar behavior as the one given by equations 2.7 with values of β = 0.6 and γ = 0.2. This was done by tuning the
